@@ -1,5 +1,5 @@
 {
-  "name": "bootstrap_boilerplate",
+  "name": "relatorio_estagio",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
