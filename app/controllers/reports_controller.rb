@@ -1,10 +1,11 @@
 class ReportsController < ApplicationController
   before_action :set_report, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /reports
   # GET /reports.json
   def index
-    @reports = Report.all
+    @reports = Report.where(user_id: current_user.id)
   end
 
   # GET /reports/1
@@ -25,7 +26,7 @@ class ReportsController < ApplicationController
   # POST /reports.json
   def create
     @report = Report.new(report_params)
-
+    @report.user_id = current_user.id
     respond_to do |format|
       if @report.save
         format.html { redirect_to @report, notice: 'Report was successfully created.' }
@@ -69,6 +70,6 @@ class ReportsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def report_params
-      params.require(:report).permit(:user_id, :company, :institution, :type, :report_date, :hours_per_day, :month, :working_days, :activities)
+      params.require(:report).permit(:user_id, :company, :institution, :report_type, :report_date, :hours_per_day, :month, :working_days, :activities)
     end
 end

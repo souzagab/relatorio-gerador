@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_02_23_214019) do
     t.integer "user_id", null: false
     t.string "company", limit: 255
     t.string "institution", limit: 255
-    t.string "type", limit: 30
+    t.string "report_type", limit: 30
     t.date "report_date"
     t.integer "hours_per_day", limit: 2
     t.string "month", limit: 30

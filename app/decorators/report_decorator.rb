@@ -2,7 +2,7 @@ class ReportDecorator < Draper::Decorator
   delegate_all
 
   def worked_hours
-    (object.hours_per_day * object.worked_days)
+    (object.hours_per_day * object.working_days)
   end
   # Define presentation-specific methods here. Helpers are accessed through
   # `helpers` (aka `h`). You can override attributes, for example:
