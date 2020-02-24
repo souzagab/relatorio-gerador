@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_171500) do
+ActiveRecord::Schema.define(version: 2020_02_23_214019) do
+
+  create_table "reports", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "company", limit: 255
+    t.string "institution", limit: 255
+    t.string "report_type", limit: 30
+    t.date "report_date"
+    t.integer "hours_per_day", limit: 2
+    t.string "month", limit: 30
+    t.integer "working_days", limit: 2
+    t.string "activities", limit: 10000
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_reports_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -29,4 +44,5 @@ ActiveRecord::Schema.define(version: 2020_02_22_171500) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "reports", "users"
 end
