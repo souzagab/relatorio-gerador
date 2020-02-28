@@ -4,6 +4,14 @@ class ReportDecorator < Draper::Decorator
   def worked_hours
     (object.hours_per_day * object.working_days)
   end
+
+  def formated_date
+    object.report_date.strftime("%d/%m/%y")
+  end
+
+  def filename
+    "#{object.month}_#{object.created_at.year}"
+  end
   # Define presentation-specific methods here. Helpers are accessed through
   # `helpers` (aka `h`). You can override attributes, for example:
   #

@@ -24,6 +24,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'draper'
 gem 'devise'
 gem 'omniauth-google-oauth2'
+gem 'prawn'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

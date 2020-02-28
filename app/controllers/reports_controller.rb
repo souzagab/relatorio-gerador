@@ -1,11 +1,11 @@
 class ReportsController < ApplicationController
-  before_action :set_report, only: [:show, :edit, :update, :destroy]
+  before_action :set_report, only: [:show, :edit, :update, :destroy, :export]
   before_action :authenticate_user!
 
   # GET /reports
   # GET /reports.json
   def index
-    @reports = Report.where(user_id: current_user.id)
+    @reports = Report.where(user_id: current_user.id).decorate
   end
 
   # GET /reports/1
@@ -62,10 +62,16 @@ class ReportsController < ApplicationController
     end
   end
 
+  def export
+    ReportService.export(@report)
+    redirect_to "/#{@report.filename}.pdf"
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_report
-      @report = Report.find(params[:id])
+      @report = Report.find(params[:id]).decorate
     end
 
     # Only allow a list of trusted parameters through.
