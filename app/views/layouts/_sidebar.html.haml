@@ -1,0 +1,36 @@
+%aside.main-sidebar.sidebar-dark-primary.elevation-4
+  / Brand Logo
+  %a.brand-link{:href => "index3.html"}
+    %span.brand-text.font-weight-light Standup App
+  / Sidebar
+  .slimScrollDiv{:style => "position: relative; overflow: hidden; width: auto; height: 652px;"}
+    .sidebar{:style => "min-height: 652px; overflow: hidden; width: auto; height: 652px;"}
+      / Sidebar user panel (optional)
+      .user-panel.mt-3.pb-3.mb-3.d-flex
+        .image
+          %img.img-circle.elevation-2{:alt => "User Image", :src => "http://placehold.it/160x160"}/
+        .info
+          %a.d-block{:href => "#"} User Name
+      / Sidebar Menu
+      %nav.mt-2
+        %ul.nav.nav-pills.nav-sidebar.flex-column{"data-accordion" => "false", "data-widget" => "treeview", :role => "menu"}
+          /
+            Add icons to the links using the .nav-icon class
+            with font-awesome or any other icon font library
+          %li.nav-item.has-treeview.menu-open
+            %a.nav-link.active{:href => "#"}
+              %i.nav-icon.fas.fa-tachometer-alt
+              %p
+                Activity
+                %i.right.fas.fa-angle-left
+            %ul.nav.nav-treeview
+              %li.nav-item
+                %a.nav-link.active{:href => "./index.html"}
+                  %i.far.fa-circle.nav-icon
+                  %p Mine
+              %li.nav-item
+                %a.nav-link{:href => "./index2.html"}
+                  %i.far.fa-circle.nav-icon
+                  %p Feed
+      / /.sidebar-menu
+    / /.sidebar
