@@ -6,10 +6,20 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
+    "admin-lte": "https://github.com/ColorlibHQ/AdminLTE/archive/v3.0.2.tar.gz",
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.1",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "cz-ptbr-changelog": "^1.0.1",
     "webpack-dev-server": "^3.10.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-ptbr-changelog"
+    }
   }
 }
