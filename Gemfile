@@ -23,6 +23,8 @@ gem 'draper'
 gem 'devise'
 gem 'prawn'
 gem 'haml-rails'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -33,6 +35,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'foreman'
+  gem 'dotenv-rails'
 end
 
 group :development do

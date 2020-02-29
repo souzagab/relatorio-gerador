@@ -10,3 +10,4 @@
         .card
           .card-body
             %p Find me in app/views/home/index.html.erb
+            = link_to('Logout', destroy_user_session_path, method: :delete)
