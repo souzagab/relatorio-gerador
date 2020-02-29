@@ -13,23 +13,23 @@
       = render partial: "layouts/header"
       = render partial: "layouts/sidebar"
       .content-wrapper
+        %p.notice
+          = notice
+        %p.alert
+          = alert
         = yield
       = render partial: "layouts/footer"
 
-    :javascript
-      $(document).ready(function() {
-          toastr.options = {
-              "closeButton": false,
-              "debug": false,
-              "positionClass": "toast-top-right",
-              "onclick": null,
-              "showDuration": "300",
-              "hideDuration": "1000",
-              "timeOut": "5000",
-              "extendedTimeOut": "1000",
-              "showEasing": "swing",
-              "hideEasing": "linear",
-              "showMethod": "fadeIn",
-              "hideMethod": "fadeOut"
-          }
-      });
+    -# - if flash[:notice]
+    -#   :javascript
+    -#     $(document).Toasts('create', {
+    -#       title: ,
+    -#       position: 'topLeft',
+    -#       autohide: true,
+    -#       delay: 2000,
+    -#       class: 'toast',
+    -#       fade: true,
+    -#       fixed: true,
+    -#       close: false,
+    -#       icon: 'fas fa-exclamation-triangle'
+    -#     })
