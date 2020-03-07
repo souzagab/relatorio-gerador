@@ -1,8 +1,6 @@
 %body.login-page{:style => "min-height: 512.391px;"}
   .login-box
-    .login-logo
-      %b Admin
-      | LTE
+    = render "devise/shared/header"
     .card
       .card-body.login-card-body
         %p.login-box-msg Faça login para iniciar nova sessão
