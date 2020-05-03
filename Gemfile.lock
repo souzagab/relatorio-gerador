@@ -66,6 +66,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.1)
+    cancancan (3.1.0)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
     devise (4.7.1)
@@ -259,12 +260,14 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
+  cancancan
   devise
   dotenv-rails
   draper
   foreman
   haml-rails
   jbuilder (~> 2.7)
+  jwt
   listen (>= 3.0.5, < 3.2)
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
