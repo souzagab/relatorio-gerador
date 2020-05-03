@@ -1,7 +1,7 @@
 %aside.main-sidebar.sidebar-dark-primary.elevation-4
   / Brand Logo
-  %a.brand-link{:href => "index3.html"}
-    %span.brand-text.font-weight-light Standup App
+  %a.brand-link{:href => "/"}
+    %span.brand-text.font-weight-light Relatório Estágio
   / Sidebar
   .slimScrollDiv{:style => "position: relative; overflow: hidden; width: auto; height: 652px;"}
     .sidebar{:style => "min-height: 652px; overflow: hidden; width: auto; height: 652px;"}
@@ -20,18 +20,31 @@
             with font-awesome or any other icon font library
           %li.nav-item.has-treeview.menu-open
             %a.nav-link.active{:href => "#"}
-              %i.nav-icon.fas.fa-tachometer-alt
+              %i.nav-icon.fas.fa-file-prescription
               %p
-                Activity
+                Relatórios
                 %i.right.fas.fa-angle-left
-            %ul.nav.nav-treeview
-              %li.nav-item
-                %a.nav-link.active{:href => "./index.html"}
-                  %i.far.fa-circle.nav-icon
-                  %p Mine
-              %li.nav-item
-                %a.nav-link{:href => "./index2.html"}
-                  %i.far.fa-circle.nav-icon
-                  %p Feed
+              %ul.nav.nav-treeview
+                - unless current_user.supervisor? # TODO: Adicionar role ao cancan, e refatorar
+                    %li.nav-item
+                      %a.nav-link.active{:href => "#"}
+                        %i.fas.fa-plus-square.nav-icon
+                        %p Gerar Novo Relatório
+                    %li.nav-item
+                      %a.nav-link{:href => "#"}
+                        %i.far.fa-folder-open.nav-icon
+                        %p Meus Relatórios
+
+                - if current_user.supervisor?
+                    %li.nav-item
+                      %a.nav-link{:href => "#"}
+                        %i.far.fa-folder-open.nav-icon
+                        %p Relatórios Pendentes
+
+                - if current_user.admin?
+                    %li.nav-item
+                      %a.nav-link{:href => "#"}
+                        %i.far.fa-folder-open.nav-icon
+                        %p Relatórios Gerados
       / /.sidebar-menu
     / /.sidebar
