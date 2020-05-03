@@ -10,7 +10,10 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.string :provider
       t.string :uid
       t.string :remember_token
+      t.string :picture
       t.boolean :admin
+      t.boolean :supervisor
+      t.boolean :user
 
       ## Recoverable
       t.string   :reset_password_token

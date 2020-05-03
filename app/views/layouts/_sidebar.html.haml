@@ -10,7 +10,8 @@
         .image
           %img.img-circle.elevation-2{:alt => "User Image", :src => "http://placehold.it/160x160"}/
         .info
-          %a.d-block{:href => "#"} User Name
+          %a.d-block{:href => "#"}
+            = current_user.name
       / Sidebar Menu
       %nav.mt-2
         %ul.nav.nav-pills.nav-sidebar.flex-column{"data-accordion" => "false", "data-widget" => "treeview", :role => "menu"}
