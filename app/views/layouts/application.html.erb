@@ -24,7 +24,9 @@
             <%end%>
           </script>
         <% end %>
-        <%= yield %>
+        <div class="content">
+          <%= yield %>
+        </div>
       </div>
       <%= render partial: 'layouts/footer' %>
     </div>
