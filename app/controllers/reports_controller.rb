@@ -1,8 +1,8 @@
 class ReportsController < ApplicationController
-  before_action :set_report, only: [:show, :edit, :update, :destroy]
+  before_action :set_report, only: [:show, :edit, :update, :destroy, :print]
   before_action :authenticate_user!
   def index
-    @reports = Report.where(user_id: current_user.id)
+    @reports = Report.where(user_id: current_user.id).decorate
   end
 
   def show
@@ -46,7 +46,13 @@ class ReportsController < ApplicationController
   end
 
   def print
-    #PdfGeneratorService.new(report).print
+    respond_to do |format|
+      format.pdf do
+        doc = ReportService.new(@report)
+        send_data doc.render, type: "application/pdf",
+                              disposition: "inline"
+      end
+    end
   end
 
   def destroy
@@ -59,7 +65,7 @@ class ReportsController < ApplicationController
 
   private
     def set_report
-      @report = Report.find(params[:id])
+      @report = Report.find(params[:id]).decorate
     end
 
     def report_params

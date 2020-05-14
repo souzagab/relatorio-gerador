@@ -1,13 +1,17 @@
 class ReportDecorator < ApplicationDecorator
   delegate_all
 
-  # Define presentation-specific methods here. Helpers are accessed through
-  # `helpers` (aka `h`). You can override attributes, for example:
-  #
-  #   def created_at
-  #     helpers.content_tag :span, class: 'time' do
-  #       object.created_at.strftime("%a %m/%d/%y")
-  #     end
-  #   end
+  def total_hours
+    object.daily_worked_hours * object.worked_days
+  end
+  def month
+    l(object.report_date, format: :month).camelize
+  end
+  def month_and_year
+    l(object.report_date, format: :month_and_year).camelize
+  end
+  def report_date
+    l(object.report_date, format: :month_and_year).camelize
+  end
 
 end

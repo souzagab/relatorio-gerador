@@ -1,0 +1,25 @@
+%p#notice= notice
+
+-# %p
+-#   %b User:
+-#   = @report.user
+%p
+  %b Company:
+  = @report.company
+%p
+  %b Educational institution:
+  = @report.educational_institution
+%p
+  %b Worked days:
+  = @report.worked_days
+%p
+  %b Daily worked hours:
+  = @report.daily_worked_hours
+%p
+  %b Report date:
+  = @report.report_date
+%p
+  %b Performed activities:
+  = @report.performed_activities
+
+= link_to 'Back', reports_path

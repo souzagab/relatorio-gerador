@@ -24,27 +24,27 @@
               %p
                 Relatórios
                 %i.right.fas.fa-angle-left
-              %ul.nav.nav-treeview
-                - unless current_user.supervisor? # TODO: Adicionar role ao cancan, e refatorar
-                    %li.nav-item
-                      %a.nav-link.active{:href => "#"}
-                        %i.fas.fa-plus-square.nav-icon
-                        %p Gerar Novo Relatório
-                    %li.nav-item
-                      %a.nav-link{:href => "#"}
-                        %i.far.fa-folder-open.nav-icon
-                        %p Meus Relatórios
+            %ul.nav.nav-treeview
+              - unless current_user.supervisor? # TODO: Adicionar role ao cancan, e refatorar
+                %li.nav-item
+                  %a.nav-link{:href => "/reports/new"}
+                    %i.fas.fa-plus-square.nav-icon
+                    %p Gerar Novo Relatório
+                %li.nav-item
+                  %a.nav-link{:href => "/reports"}
+                    %i.far.fa-folder-open.nav-icon
+                    %p Meus Relatórios
 
-                - if current_user.supervisor?
-                    %li.nav-item
-                      %a.nav-link{:href => "#"}
-                        %i.far.fa-folder-open.nav-icon
-                        %p Relatórios Pendentes
+              - if current_user.supervisor?
+                %li.nav-item
+                  %a.nav-link{:href => "#"}
+                    %i.far.fa-folder-open.nav-icon
+                    %p Relatórios Pendentes
 
-                - if current_user.admin?
-                    %li.nav-item
-                      %a.nav-link{:href => "#"}
-                        %i.far.fa-folder-open.nav-icon
-                        %p Relatórios Gerados
+              - if current_user.admin?
+                %li.nav-item
+                  %a.nav-link{:href => "#"}
+                    %i.far.fa-folder-open.nav-icon
+                    %p Relatórios Gerados
       / /.sidebar-menu
     / /.sidebar

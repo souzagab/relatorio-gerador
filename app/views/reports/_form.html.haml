@@ -1,0 +1,47 @@
+
+.card.card-outline-secondary.col-10
+  %h2.card-title.mt-3.mx-auto Novo Relatório
+  .card-body
+    = form_for @report, html: { class: 'form' } do |f|
+      - if @report.errors.any?
+        #error_explanation
+          %h4.mx-auto= "#{pluralize(@report.errors.count, "erros")} impediram este relatório de ser salvo:"
+          %ul.list-group
+            - @report.errors.full_messages.each do |message|
+              %li.list-group-item= message
+      .row
+        .form-group.col-6
+          = f.label :company, class: "col-form-label form-control-label"
+          = f.text_field :company, class: "form-control"
+
+        .form-group.col-6
+          = f.label :supervisor_email, class: "col-form-label form-control-label"
+          = f.text_field :supervisor_email, class: "form-control"
+      .row
+        .form-group.col-6
+          = f.label :educational_institution, class: "col-form-label form-control-label"
+          = f.text_field :educational_institution, class: "form-control"
+
+        .form-group.col-6
+          = f.label :professor, class: "col-form-label form-control-label"
+          = f.select(:professor_id , User.all.collect { |u| [u.name, u.id] }, {:include_blank => "Selecione"}, { class: "form-control" }) # Filtrar professores
+
+      .row
+        .form-group.col-6
+          = f.label :worked_days, class: "mr-5 col-form-label form-control-label"
+          = f.select(:worked_days, 0..31, {:include_blank => "0"}, { class: "form-control" })
+
+        .form-group.col-6
+          = f.label :daily_worked_hours, class: "mr-5 col-form-label form-control-label"
+          = f.select(:daily_worked_hours, 0..12, {:include_blank => "0"}, { class: "form-control" })
+
+      .form-group
+        = f.label :performed_activities, class: "row col-form-label form-control-label"
+        = f.text_area(:performed_activities, {class: "row form-control"})
+
+      .form-group.row
+        = f.label :report_date, class: "mr-2 col-form-label form-control-label"
+        = f.text_field(:report_date, {class: "col-3"})
+      .row
+        .col-12.mr-5
+          = f.submit 'Salvar', class: "btn-block btn-primary"
