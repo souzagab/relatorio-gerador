@@ -24,3 +24,16 @@ import "../stylesheets/application.scss"
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+import TurbolinksAdapter from 'vue-turbolinks'
+import VueSignaturePad from 'vue-signature-pad'
+import Vue from 'vue/dist/vue.esm'
+import App from '../app.vue'
+Vue.use(VueSignaturePad)
+Vue.use(TurbolinksAdapter)
+Vue.component('app', App)
+document.addEventListener('turbolinks:load', () => {
+  const app = new Vue({
+    el: '[data-behavior="vue"]'
+  })
+})
