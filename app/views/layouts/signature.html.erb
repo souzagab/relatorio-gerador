@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html style = "height: 100%">
+  <head>
+    <title>Relatório Estágio</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/6d90f39943.js"></script>
+
+  </head>
+
+  <body>
+    <div data-behavior="vue" style="height:100vh;">
+      <%= yield %>
+    </div>
+  </body>
+</html>

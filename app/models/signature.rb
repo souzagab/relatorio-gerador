@@ -1,3 +1,3 @@
 class Signature < ApplicationRecord
-  belongs_to :subscriber
+  belongs_to :user
 end

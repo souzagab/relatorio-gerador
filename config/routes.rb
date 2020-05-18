@@ -5,6 +5,12 @@ Rails.application.routes.draw do
   root 'home#index'
 
   devise_for :users, controllers: {omniauth_callbacks: "omniauth_callbacks"}
+  resources :signatures, only: [:new, :create] do
+    collection do
+      get :sign
+    end
+  end
+
   resources :reports, except: [:edit] do
     member do
       get :print

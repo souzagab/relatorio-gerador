@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 2020_05_03_212442) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
-
   create_table "reports", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "company"
@@ -32,13 +31,12 @@ ActiveRecord::Schema.define(version: 2020_05_03_212442) do
   end
 
   create_table "signatures", force: :cascade do |t|
-    t.bigint "subscriber_id", null: false
-    t.text "uuid", default: "uuid_generate_v4()", null: false
-    t.string "sign"
+    t.bigint "user_id", null: false
+    t.text "sign"
     t.text "audits"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["subscriber_id"], name: "index_signatures_on_subscriber_id"
+    t.index ["user_id"], name: "index_signatures_on_user_id"
   end
 
   create_table "subscribers", force: :cascade do |t|
@@ -71,5 +69,5 @@ ActiveRecord::Schema.define(version: 2020_05_03_212442) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "signatures", "subscribers"
+  add_foreign_key "signatures", "users"
 end
