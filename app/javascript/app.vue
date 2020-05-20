@@ -3,6 +3,9 @@
     <div class="container h-100">
       <div class="row align-items-center h-100">
         <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mx-auto">
+          <div v-if="token">
+            <button type="submit" class="btn btn-info my-2" @click="redirectToReport()"> Visualizar relatório </button>
+          </div>
           <div class="jumbotron m-0 p-0">
             <vue-signature-pad ref="signaturePad"></vue-signature-pad>
           </div>
@@ -25,11 +28,12 @@ import axios from "axios";
 
 export default {
   data: () => ({
-    token: null
+    token: null,
+    report_id: null
   }),
 
   created() {
-    this.getToken();
+    this.getParams();
   },
 
   computed: {
@@ -40,14 +44,23 @@ export default {
 
     signaturesURI() {
       return `${this.baseURI}/signatures`;
+    },
+
+    tokenParam () {
+      return `?token=${this.token}`
+    },
+
+    printReportURI() {
+      return `${this.baseURI}/reports/${this.report_id}/print.pdf${this.tokenParam}`
     }
   },
 
   methods: {
-    getToken() {
-      let uri = window.location.search.substring(1);
-      let params = new URLSearchParams(uri);
-      this.token = params.get("token");
+    getParams() {
+      let uri = window.location.search.substring(1)
+      let params = new URLSearchParams(uri)
+      this.token = params.get("token")
+      this.report_id = params.get("rid")
     },
 
     undo() {
@@ -72,16 +85,24 @@ export default {
       return axios
         .post(this.signaturesURI, payload)
         .then(() => {
-          window.location.replace(`${this.baseURI}/obrigado.html`)
-          alert("Assinatura Confirmada");
+          // Cofirm Sweetalert -> redireciona ?
+          if(this.token){
+            window.location.replace(`${this.baseURI}/obrigado.html`)
+            alert("Assinatura Confirmada")
+          }
+
         })
         .catch(error => {
           alert(error);
           window.location.replace(`${this.baseURI}/500.html`)
         })
+    },
+
+    redirectToReport () {
+      window.open(`${this.printReportURI}`,'_blank', 'toolbar=yes, scrollbars=yes, resizable=yes, top=100, left=500,width=800,height=600')
     }
   }
-};
+}
 </script>
 
 <style>

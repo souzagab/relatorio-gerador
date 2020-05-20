@@ -10,14 +10,15 @@ class Report < ApplicationRecord
   delegate :sign, to: :signature, prefix: :user, allow_nil: true
   delegate :sign, to: :supervisor_signature, prefix: :supervisor, allow_nil: true
   delegate :sign, to: :professor_signature, prefix: :professor, allow_nil: true
-
-  attr_accessor :supervisor_email
+  delegate :name, to: :user, prefix: true
 
   validates :company, presence: true
   validates :educational_institution, presence: true
   validates :worked_days, presence: true
   validates :daily_worked_hours, presence: true
   validates :performed_activities, presence: true
+
+  attr_accessor :supervisor_email
 
   def aproved?
     # %w(user_sign professor_sign supervisor_sign).present?

@@ -1,30 +1,37 @@
 class SignatureService
   def initialize(report)
-    debugger
     self.report = report
     self.professor = report.professor
-    self.supervisor = User.find_by(email: report.supervisor_email)
-    create_supervisor unless supervisor
+    fetch_supervisor
   end
+
+
+
+  def send_email
+    return unless professor
+
+    url = "http://localhost:3000/signatures/sign?token=#{supervisor_token}&#{report_id_param}" # rotas
+    ReportMailer.with(report: report.decorate).new_report_email(url).deliver_now! #deliver_later
+  end
+
+  private
 
   attr_accessor :report, :professor, :supervisor
 
-  def gerar_token_disparar_emails
-    return unless professor
-
-    # Disparar email com um token que é o email do supervisor jwt
+  def fetch_supervisor
+    self.supervisor = User.find_or_initialize_by(email: report.supervisor_email)
+    supervisor.update_column(password: Devise.friendly_token[0,20]) unless supervisor.persisted?
+    report.update_column(:supervisor_id, supervisor.id)
   end
 
   def supervisor_token
-    # Cria Token com email do supervisor ????
-    # retorna token
+    payload = {
+      user_id: supervisor.id,
+    }
+    JsonWebToken.encode(payload)
   end
 
-  def create_supervisor
-    self.supervisor = User.create(
-        email: report.supervisor_email,
-        password: Devise.friendly_token[0,20]
-      )
+  def report_id_param
+    "rid=#{report.id}"
   end
-
 end

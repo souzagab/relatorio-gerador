@@ -1,6 +1,9 @@
 class ReportsController < ApplicationController
+  include SignatureTokenConcern
+
   before_action :set_report, only: [:show, :edit, :update, :destroy, :print]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:print]
+
   def index
     @reports = Report.where(user_id: current_user.id).decorate
   end
@@ -23,7 +26,7 @@ class ReportsController < ApplicationController
     @report.user_id = current_user.id
     respond_to do |format|
       if @report.save
-        # SignatureService.new(@report)
+        SignatureService.new(@report).send_email
         format.html { redirect_to @report, notice: 'O relatório foi criado com sucesso.' }
         format.json { render :show, status: :created, location: @report }
       else
@@ -71,5 +74,9 @@ class ReportsController < ApplicationController
     def report_params
       params.require(:report).permit(:company, :educational_institution, :worked_days, :daily_worked_hours,
                                      :report_date, :performed_activities, :supervisor_email, :professor_id)
+    end
+
+    def authenticate_print
+      user_signed_in? ? authenticate_user! : validate_token
     end
 end

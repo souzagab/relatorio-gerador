@@ -9,18 +9,14 @@ class SignaturesController < ApplicationController
   layout 'signature', only: :sign
 
   def new
-    @signature = Signature.new
   end
 
   def sign
-    @signature = Signature.new
   end
 
   def create
-    user_id = user_signed_in? ? current_user.id : user_id_token
-
-    @signature = Signature.where(id: user_id).first_or_initialize
-    @signature.sign = signature_params[:sign]
+    fetch_signature
+    debugger
 
     respond_to do |format|
       if @signature.save
@@ -44,5 +40,11 @@ class SignaturesController < ApplicationController
 
     def authenticate_create
       user_signed_in? ? authenticate_user! : validate_token
+    end
+
+    def fetch_signature
+      user_id = user_signed_in? ? current_user.id : user_id_token
+      @signature = Signature.find_or_initialize_by(user_id: user_id)
+      @signature.sign = signature_params[:sign]
     end
 end

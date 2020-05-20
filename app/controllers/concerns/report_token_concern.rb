@@ -1,4 +1,4 @@
-module SignatureTokenConcern
+module ReportTokenConcern
   extend ActiveSupport::Concern
 
     def validate_token
@@ -18,6 +18,6 @@ module SignatureTokenConcern
     end
 
     def decoded_token
-      JsonWebToken.decode signature_params[:token]
+      JsonWebToken.decode report_params[:token]
     end
 end
