@@ -1,0 +1,63 @@
+.row
+  .mt-5.col-6
+    %h4.mx-5 Status do Relatório
+
+    .card-body
+      %table.table
+        %tbody
+          %tr
+            %th Aluno
+            %td
+              = @report.user_name
+          %tr
+            %th Referente ao mês
+            %td
+              = @report.month
+          %tr
+            %th Horas trabalhadas por dia
+            %td
+              = @report.daily_worked_hours
+          %tr
+            %th Total de horas trabalhadas
+            %td
+              = @report.total_hours
+          %tr
+            %th Assinatura do supervisor presente?
+            %td
+              - if @report.supervisor_sign.present?
+                Sim
+              - else
+                Não
+          %tr
+            %th Status
+            %td
+              - if (@report.professor_sign.nil? && !@report.rejected?)
+                = link_to('Assine', "#{new_signature_path}?rid=#{@report.id}")
+              - elsif (!@report.approved? && !@report.rejected?)
+                = link_to 'Aprovar Relatório', approve_report_path(@report), method: :post, class: 'btn btn-success'
+              - elsif @report.rejected?
+                Rejeitado
+              - else
+                Aprovado
+          - if @report.rejected?
+            %tr
+              %th Motivo
+              %td
+                = @report.cancel_reason || ' - '
+
+          %tr
+            %th
+            %td= link_to 'Visualizar relatório', print_report_path(@report, format: "pdf"), target: "_blank", class: 'btn btn-primary'
+
+- unless @report.rejected? || @report.approved
+  .row
+    .mt-5.col-12
+      .card-body
+        = form_for @report, url: cancel_report_path, html: { class: 'form' } do |f|
+          .form-group.row
+            = f.label :cancel_reason, class: "row col-form-label form-control-label"
+            = f.text_area(:cancel_reason, {class: "row form-control"})
+          .row
+            = f.submit 'Rejeitar', class: "btn btn-danger"
+
+

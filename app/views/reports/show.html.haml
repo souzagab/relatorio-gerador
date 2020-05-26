@@ -1,22 +1,47 @@
-%p#notice= notice
+.row 
+  .mt-5.col-6
+    %h4.mx-5 Status do Relatório
 
-%p
-  %b Company:
-  = @report.company
-%p
-  %b Educational institution:
-  = @report.educational_institution
-%p
-  %b Worked days:
-  = @report.worked_days
-%p
-  %b Daily worked hours:
-  = @report.daily_worked_hours
-%p
-  %b Report date:
-  = @report.report_date
-%p
-  %b Performed activities:
-  = @report.performed_activities
+    .card-body
+      %table.table
+        %tbody
+          %tr
+            %th Assinatura do estagiário
+            %td
+              - if @report.user_sign.present?
+                %i.fas.fa-check-circle.fa-lg
+              - else
+                = link_to('Assinar', "#{new_signature_path}?rid=#{@report.id}")
+          %tr
+            %th Assinatura do supervisor
+            %td
+              - if @report.supervisor_sign.present?
+                %i.fas.fa-check-circle.fa-lg
+              - else
+                %i.fas.fa-times-circle.fa-lg
+          %tr
+            %th Assinatura/Aprovação do coordenador
+            %td
+              - if @report.professor_approved?
+                %i.fas.fa-check-circle.fa-lg
+              - elsif @report.rejected?
+                %i.fas.fa-times-circle.fa-lg
+              - else
+                %i.fas.fa-ellipsis-h.fa-lg
 
-= link_to 'Back', reports_path
+
+  .col-6
+    - if @report.professor_approved?
+      %i.fas.fa-check-circle.fa-lg(style="font-size:100px; margin: 10rem 10rem;")
+        %h4(style="margin-top: 10px;") Aprovado
+    - elsif @report.rejected?
+      %i.fas.fa-times-circle.fa-lg(style="font-size:100px; margin: 10rem 10rem;")
+        %h4(style="margin-top: 10px;") Rejeitado
+    - else
+      %i.fas.fa-ellipsis-h.fa-lg(style="font-size:100px; margin: 10rem 10rem;")
+        %h4(style="margin-top: 10px;") Pendente
+
+- if @report.rejected?
+  .row
+    %p
+      = @report.cancel_reason

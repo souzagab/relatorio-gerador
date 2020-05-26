@@ -16,12 +16,12 @@ class SignaturesController < ApplicationController
 
   def create
     fetch_signature
-    debugger
 
     respond_to do |format|
       if @signature.save
-        format.html #{ redirect_to @signature, notice: 'Signature was successfully created.' }
-        format.json { render :nothing, status: :created, location: @signature }
+
+        format.html #{ redirect_to reports_path, notice: 'Signature was successfully created.' } if user_signed_in?
+        format.json { render :nothing, status: :created }
       else
         format.html #{ render :new }
         format.json { render json: @signature.errors, status: :unprocessable_entity }

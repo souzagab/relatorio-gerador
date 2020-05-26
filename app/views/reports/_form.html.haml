@@ -24,7 +24,7 @@
 
         .form-group.col-6
           = f.label :professor, class: "col-form-label form-control-label"
-          = f.select(:professor_id , User.all.collect { |u| [u.name, u.id] }, {:include_blank => "Selecione"}, { class: "form-control" }) # Filtrar professores
+          = f.select(:professor_id , @professors.collect { |u| [u.name, u.id] }, {:include_blank => "Selecione"}, { class: "form-control" })
 
       .row
         .form-group.col-6

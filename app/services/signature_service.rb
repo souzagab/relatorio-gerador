@@ -20,7 +20,7 @@ class SignatureService
 
   def fetch_supervisor
     self.supervisor = User.find_or_initialize_by(email: report.supervisor_email)
-    supervisor.update_column(password: Devise.friendly_token[0,20]) unless supervisor.persisted?
+    supervisor.update_attributes(password: Devise.friendly_token[0,20]) unless supervisor.persisted?
     report.update_column(:supervisor_id, supervisor.id)
   end
 

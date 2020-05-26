@@ -52,6 +52,11 @@ export default {
 
     printReportURI() {
       return `${this.baseURI}/reports/${this.report_id}/print.pdf${this.tokenParam}`
+    },
+
+    showReportURI() {
+      return `${this.baseURI}/reports/${this.report_id}/`
+
     }
   },
 
@@ -89,12 +94,16 @@ export default {
           if(this.token){
             window.location.replace(`${this.baseURI}/obrigado.html`)
             alert("Assinatura Confirmada")
+          } else {
+            window.location.replace(`${this.showReportURI}`)
           }
 
         })
         .catch(error => {
           alert(error);
-          window.location.replace(`${this.baseURI}/500.html`)
+          if(this.token){
+            window.location.replace(`${this.baseURI}/500.html`)
+          }
         })
     },
 

@@ -20,8 +20,26 @@ class Report < ApplicationRecord
 
   attr_accessor :supervisor_email
 
-  def aproved?
-    # %w(user_sign professor_sign supervisor_sign).present?
+  def finished?
+    return false unless approved
+    [user_sign, professor_sign, supervisor_sign].any?
   end
 
+  def professor_approved?
+    return false unless approved
+    professor_sign.present?
+  end
+
+  def rejected?
+    return false if approved
+    [canceled_at, cancel_reason].any?
+  end
+
+  def approve!
+    update_column(:approved, true)
+  end
+
+  def cancel!
+    update_column(:canceled_at, Time.now)
+  end
 end

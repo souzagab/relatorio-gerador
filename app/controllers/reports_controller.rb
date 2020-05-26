@@ -1,14 +1,16 @@
 class ReportsController < ApplicationController
   include SignatureTokenConcern
 
-  before_action :set_report, only: [:show, :edit, :update, :destroy, :print]
+  before_action :set_report, only: [:show, :edit, :update, :destroy, :print, :verify, :cancel, :approve]
   before_action :authenticate_user!, except: [:print]
 
   def index
-    @reports = Report.where(user_id: current_user.id).decorate
+    reports_collection
   end
 
   def show
+    redirect_to verify_report_path(@report) if current_user.coordenador?
+
   end
 
   def new
@@ -17,8 +19,30 @@ class ReportsController < ApplicationController
   end
 
 
-  def edit
+  def verify
+    return render_unauthorized unless current_user.coordenador?
   end
+
+  def approve
+    return render_unauthorized unless current_user.coordenador?
+
+    if @report.update_column(:approved, true)
+      redirect_to reports_path
+      flash[:notice] = "O Relatório foi aprovado!"
+    end
+  end
+
+  def cancel
+    return render_unauthorized unless current_user.coordenador?
+
+    if @report.update(cancel_report_params)
+      @report.cancel!
+      redirect_to reports_path
+      flash[:notice]= "O relatório foi rejeitado"
+    else
+    end
+  end
+
 
   def create
     @report = Report.new(report_params)
@@ -76,7 +100,55 @@ class ReportsController < ApplicationController
                                      :report_date, :performed_activities, :supervisor_email, :professor_id)
     end
 
+    def cancel_report_params
+      params.require(:report).permit(:cancel_reason)
+    end
+
+
     def authenticate_print
       user_signed_in? ? authenticate_user! : validate_token
+    end
+
+    def reports_collection
+      if current_user.admin?
+        @reports = Report.all.decorate
+
+      elsif current_user.coordenador?
+        @reports = fetch_reports.order('created_at DESC')
+                                .decorate
+
+      else
+        @reports = Report.where(user_id: current_user.id).decorate
+      end
+    end
+
+    def fetch_reports
+      case params[:r]
+
+      when 'rejected'
+        rejected_reports
+      when 'approved'
+        approved_reports
+      else
+        pending_reports
+      end
+    end
+
+    def pending_reports
+      Report.where(professor_id: current_user.id)
+            .where('canceled_at IS NULL')
+            .where('cancel_reason IS NULL')
+            .where(approved: false)
+    end
+
+    def rejected_reports
+      Report.where(professor_id: current_user.id)
+            .where('canceled_at IS NOT NULL')
+            .where(approved: false)
+    end
+
+    def approved_reports
+      Report.where(professor_id: current_user.id)
+            .where(approved: true)
     end
 end

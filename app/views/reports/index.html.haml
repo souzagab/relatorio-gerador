@@ -6,25 +6,48 @@
     %table.table
       %thead
         %tr
-          %th Mês
-          %th Empresa
-          %th Instituição
-          %th Total de Horas
+          - unless current_user.coordenador?
+            %th Mês
+            %th Empresa
+            %th Instituição
+            %th Total de Horas
+            %th Status
+            %th
+            %th Ações
+            %th
+          - if current_user.coordenador?
+            %th Aluno
+            %th Mês
+            %th Status
+            %th
 
-          %th
-          %th Ações
-          %th
+
 
       %tbody
         - @reports.each do |report|
           %tr
-            %td= report.month
-            %td= report.company
-            %td= report.educational_institution
-            %td= report.total_hours
+            - unless current_user.coordenador?
+              %td= report.month
+              %td= report.company
+              %td= report.educational_institution
+              %td= report.total_hours
+            - if current_user.coordenador?
+              %td= report.user_name
+              %td= report.month
+            %td
+              - if report.professor_approved?
+                %i.fas.fa-check-circle.fa-lg
+              - elsif report.rejected?
+                %i.fas.fa-times-circle.fa-lg
+              - else
+                %i.fas.fa-ellipsis-h.fa-lg
 
-            %td= link_to 'Imprimir', print_report_path(report, format: "pdf")
-            %td= link_to 'Visualizar', report
-            %td= link_to 'Editar', edit_report_path(report)
-            %td= link_to 'Excluir', report, method: :delete, data: { confirm: 'Vocë tem certeza?' }
+            %td
+              - url = current_user.coordenador? ? verify_report_path(report) : report
+              = link_to 'Visualizar', url
+            - unless current_user.coordenador?
+              %td
+                = link_to 'Imprimir', print_report_path(report, format: "pdf")
+              %td
+                = link_to 'Excluir', report, method: :delete, data: { confirm: 'Vocë tem certeza?' }
 
