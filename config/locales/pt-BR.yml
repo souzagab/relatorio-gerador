@@ -18,6 +18,7 @@ pt-BR:
         performed_activities: Atividades Realizadas
         professor: Professor
         supervisor_email: Email do supervisor
+        supervisor_nome: Nome do supervisor
         cancel_reason: Justificativa
 
   date:

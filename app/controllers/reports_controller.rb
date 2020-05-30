@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
   include SignatureTokenConcern
 
   before_action :set_report, only: [:show, :edit, :update, :destroy, :print, :verify, :cancel, :approve]
+  before_action :set_professors, only: [:new, :create]
   before_action :authenticate_user!, except: [:print]
 
   def index
@@ -15,7 +16,7 @@ class ReportsController < ApplicationController
 
   def new
     @report = Report.new
-    @professors = User.where(coordenador: true)
+
   end
 
 
@@ -35,7 +36,7 @@ class ReportsController < ApplicationController
   def cancel
     return render_unauthorized unless current_user.coordenador?
 
-    if @report.update(cancel_report_params)
+    if @report.update_column(:cancel_reason, cancel_report_params['cancel_reason'])
       @report.cancel!
       redirect_to reports_path
       flash[:notice]= "O relatório foi rejeitado"
@@ -55,18 +56,6 @@ class ReportsController < ApplicationController
         format.json { render :show, status: :created, location: @report }
       else
         format.html { render :new }
-        format.json { render json: @report.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @report.update(report_params)
-        format.html { redirect_to @report, notice: 'Report was successfully updated.' }
-        format.json { render :show, status: :ok, location: @report }
-      else
-        format.html { render :edit }
         format.json { render json: @report.errors, status: :unprocessable_entity }
       end
     end
@@ -97,7 +86,7 @@ class ReportsController < ApplicationController
 
     def report_params
       params.require(:report).permit(:company, :educational_institution, :worked_days, :daily_worked_hours,
-                                     :report_date, :performed_activities, :supervisor_email, :professor_id)
+                                     :report_date, :performed_activities, :supervisor_email, :supervisor_nome, :professor_id)
     end
 
     def cancel_report_params
@@ -151,4 +140,9 @@ class ReportsController < ApplicationController
       Report.where(professor_id: current_user.id)
             .where(approved: true)
     end
+
+    def set_professors
+      @professors = User.where(coordenador: true)
+    end
+
 end

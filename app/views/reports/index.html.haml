@@ -18,6 +18,8 @@
           - if current_user.coordenador?
             %th Aluno
             %th Mês
+            %th Dias Trabalhados
+            %th Horas Totais
             %th Status
             %th
 
@@ -34,6 +36,8 @@
             - if current_user.coordenador?
               %td= report.user_name
               %td= report.month
+              %td= report.worked_days
+              %td= report.total_hours
             %td
               - if report.professor_approved?
                 %i.fas.fa-check-circle.fa-lg
@@ -47,7 +51,7 @@
               = link_to 'Visualizar', url
             - unless current_user.coordenador?
               %td
-                = link_to 'Imprimir', print_report_path(report, format: "pdf")
+                = link_to 'Imprimir', print_report_path(report, format: "pdf"), target: "_blank"
               %td
                 = link_to 'Excluir', report, method: :delete, data: { confirm: 'Vocë tem certeza?' }
 

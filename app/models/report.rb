@@ -11,14 +11,19 @@ class Report < ApplicationRecord
   delegate :sign, to: :supervisor_signature, prefix: :supervisor, allow_nil: true
   delegate :sign, to: :professor_signature, prefix: :professor, allow_nil: true
   delegate :name, to: :user, prefix: true
+  delegate :name, to: :professor, prefix: true
+  delegate :name, to: :supervisor, prefix: true
 
   validates :company, presence: true
   validates :educational_institution, presence: true
   validates :worked_days, presence: true
   validates :daily_worked_hours, presence: true
   validates :performed_activities, presence: true
+  validates :supervisor_email, presence: true
+  validates :supervisor_nome, presence: true
+  validates_format_of :supervisor_email, with: Devise::email_regexp
 
-  attr_accessor :supervisor_email
+  attr_accessor :supervisor_email, :supervisor_nome
 
   def finished?
     return false unless approved

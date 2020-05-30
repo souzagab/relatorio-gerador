@@ -10,7 +10,7 @@ class SignatureService
   def send_email
     return unless professor
 
-    url = "http://localhost:3000/signatures/sign?token=#{supervisor_token}&#{report_id_param}" # rotas
+    url = "#{base_uri}/signatures/sign?token=#{supervisor_token}&#{report_id_param}" # rotas
     ReportMailer.with(report: report.decorate).new_report_email(url).deliver_now! #deliver_later
   end
 
@@ -20,7 +20,7 @@ class SignatureService
 
   def fetch_supervisor
     self.supervisor = User.find_or_initialize_by(email: report.supervisor_email)
-    supervisor.update_attributes(password: Devise.friendly_token[0,20]) unless supervisor.persisted?
+    supervisor.update_attributes(password: Devise.friendly_token[0,20], name: report.supervisor_nome) unless supervisor.persisted?
     report.update_column(:supervisor_id, supervisor.id)
   end
 
@@ -34,4 +34,9 @@ class SignatureService
   def report_id_param
     "rid=#{report.id}"
   end
+
+  def base_uri
+    ENV['BASE_URI'] || "http://localhost:3000/"
+  end
+
 end

@@ -27,6 +27,13 @@
 import axios from "axios";
 
 export default {
+  props: {
+    baseUrl: {
+      Type: String,
+      default: "http://localhost:3000"
+    }
+  },
+
   data: () => ({
     token: null,
     report_id: null
@@ -38,8 +45,7 @@ export default {
 
   computed: {
     baseURI() {
-      return "http://localhost:3000";
-      // return process.env.BASE_URI
+      return this.baseUrl
     },
 
     signaturesURI() {
@@ -69,20 +75,20 @@ export default {
     },
 
     undo() {
-      this.$refs.signaturePad.undoSignature();
+      this.$refs.signaturePad.undoSignature()
     },
 
     save() {
-      const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
+      const { isEmpty, data } = this.$refs.signaturePad.saveSignature()
 
       if (!isEmpty) {
         const payload = {
           token: this.token,
           sign: data
-        };
-        this.sendSignature(payload);
+        }
+        this.sendSignature(payload)
       } else {
-        alert("Preencha a Assinatura");
+        alert("Preencha a Assinatura")
       }
     },
 

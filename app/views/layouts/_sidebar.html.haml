@@ -8,7 +8,8 @@
       / Sidebar user panel (optional)
       .user-panel.mt-3.pb-3.mb-3.d-flex
         .image
-          %img.img-circle.elevation-2{:alt => "User Image", :src => "http://placehold.it/160x160"}/
+          - img_src = current_user.picture.nil? ? "http://placehold.it/160x160" : current_user.picture
+          %img.img-circle.elevation-2{alt:"User avatar", src: img_src}/
         .info
           %a.d-block{:href => "#"}
             = current_user.name
