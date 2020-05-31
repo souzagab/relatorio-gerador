@@ -10,9 +10,9 @@ class Report < ApplicationRecord
   delegate :sign, to: :signature, prefix: :user, allow_nil: true
   delegate :sign, to: :supervisor_signature, prefix: :supervisor, allow_nil: true
   delegate :sign, to: :professor_signature, prefix: :professor, allow_nil: true
-  delegate :name, to: :user, prefix: true
-  delegate :name, to: :professor, prefix: true
-  delegate :name, to: :supervisor, prefix: true
+  delegate :name, to: :user, prefix: true, allow_nil: true
+  delegate :name, to: :professor, prefix: true, allow_nil: true
+  delegate :name, to: :supervisor, prefix: true, allow_nil: true
 
   validates :company, presence: true
   validates :educational_institution, presence: true

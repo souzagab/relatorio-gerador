@@ -12,7 +12,7 @@
       .row
         .form-group.col-6
           = f.label :educational_institution, class: "col-form-label form-control-label"
-          = f.text_field :educational_institution, class: "form-control"
+          = f.text_field :educational_institution, class: "form-control disabled", value: "Fundação Herminio Ometto - Uniararas", readonly: true
 
         .form-group.col-6
           = f.label :professor, class: "col-form-label form-control-label"
